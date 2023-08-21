@@ -24,7 +24,7 @@ Layout.defaultProps = {
   title: "Shopping kart - shop now",
   description: "mern stack project",
   keywords: "mern,react,node,mongodb",
-  author: "Techinfoyt",
+  author: "Chetan",
 };
 
 export default Layout;
