@@ -4,11 +4,14 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../../styles/AuthStyles.css";
+import { useAuth } from "../../context/auth";
 
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const [auth, setAuth] = useAuth();
 
   // form function
   const handleSubmit = async (e) => {
@@ -20,6 +23,12 @@ function Login() {
       );
       if (res && res.data.success) {
         toast.success(res.data.message);
+        setAuth({
+          ...auth,
+          user: res.data.user,
+          token: res.data.token,
+        });
+        localStorage.setItem("auth", JSON.stringify(res.data));
         navigate("/");
       } else {
         toast.error(res.data.message);
