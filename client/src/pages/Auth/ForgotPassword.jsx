@@ -5,13 +5,10 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../../styles/AuthStyles.css";
 
-function Register() {
+const ForgotPassword = () => {
   const navigate = useNavigate();
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [answer, setAnswer] = useState("");
 
   // form function
@@ -19,8 +16,8 @@ function Register() {
     e.preventDefault();
     try {
       const res = await axios.post(
-        `${process.env.REACT_APP_API}/api/v1/auth/register`,
-        { name, email, password, phone, address, answer }
+        `${process.env.REACT_APP_API}/api/v1/auth/forgot-password`,
+        { email, newPassword, answer }
       );
       if (res && res.data.success) {
         toast.success(res.data.message);
@@ -34,22 +31,10 @@ function Register() {
     }
   };
   return (
-    <Layout title="Register - Shopping kart">
+    <Layout title="Forgot Password - Ecommerce App">
       <div className="form-container">
         <form onSubmit={handleSubmit}>
-          <h1 className="title">REGISTER FORM</h1>
-          <div className="mb-3">
-            <input
-              type="text"
-              placeholder="Name"
-              value={name}
-              className="form-control"
-              required
-              onChange={(e) => {
-                setName(e.target.value);
-              }}
-            />
-          </div>
+          <h1 className="title">RESET PASSWORD</h1>
           <div className="mb-3">
             <input
               type="email"
@@ -65,43 +50,19 @@ function Register() {
           <div className="mb-3">
             <input
               type="password"
-              placeholder="Password"
-              value={password}
+              placeholder="New Password"
+              value={newPassword}
               className="form-control"
               required
               onChange={(e) => {
-                setPassword(e.target.value);
+                setNewPassword(e.target.value);
               }}
             />
           </div>
           <div className="mb-3">
             <input
               type="text"
-              placeholder="Phone Number"
-              value={phone}
-              className="form-control"
-              required
-              onChange={(e) => {
-                setPhone(e.target.value);
-              }}
-            />
-          </div>
-          <div className="mb-3">
-            <input
-              type="text"
-              placeholder="Address"
-              value={address}
-              className="form-control"
-              required
-              onChange={(e) => {
-                setAddress(e.target.value);
-              }}
-            />
-          </div>
-          <div className="mb-3">
-            <input
-              type="text"
-              placeholder="What is your favorite sports name?"
+              placeholder="Enter your favorite sports name"
               value={answer}
               className="form-control"
               required
@@ -111,12 +72,12 @@ function Register() {
             />
           </div>
           <button type="submit" className="btn btn-primary">
-            REGISTER
+            RESET
           </button>
         </form>
       </div>
     </Layout>
   );
-}
+};
 
-export default Register;
+export default ForgotPassword;
