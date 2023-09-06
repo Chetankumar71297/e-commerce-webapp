@@ -13,8 +13,8 @@ import PrivateRoute from "./components/Routes/Private";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
 import AdminRoute from "./components/Routes/AdminRoute";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
-import CreateCategory from "./pages/Admin/CreateCategory";
-import CreateProduct from "./pages/Admin/CreateProduct";
+import ManageCategory from "./pages/Admin/ManageCategory";
+import ManageProduct from "./pages/Admin/ManageProduct";
 import Users from "./pages/Admin/Users";
 import Profile from "./pages/User/Profile";
 import Orders from "./pages/User/Orders";
@@ -36,8 +36,8 @@ function App() {
         </Route>
         <Route path="/dashboard" element={<AdminRoute />}>
           <Route path="admin" element={<AdminDashboard />} />
-          <Route path="admin/create-category" element={<CreateCategory />} />
-          <Route path="admin/create-product" element={<CreateProduct />} />
+          <Route path="admin/manage-category" element={<ManageCategory />} />
+          <Route path="admin/manage-product" element={<ManageProduct />} />
           <Route path="admin/users" element={<Users />} />
         </Route>
         <Route path="*" element={<PageNotFound />} />

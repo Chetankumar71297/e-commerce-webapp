@@ -12,7 +12,7 @@ export const createCategoryController = async (req, res) => {
     if (existingCategory) {
       return res
         .status(200)
-        .send({ success: true, message: "Category already exists" });
+        .send({ success: false, message: "Category already exists" });
     }
     const category = await new categoryModal({
       name,
