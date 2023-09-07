@@ -61,7 +61,7 @@ const ManageCategory = () => {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API}/api/v1/category/get-categories`
       );
-      if (data.success) {
+      if (data?.success) {
         setCategories(data.categoriesList);
       }
     } catch (error) {
@@ -96,7 +96,7 @@ const ManageCategory = () => {
     getAllCategories();
   }, []);
   return (
-    <Layout title="Dashboard - Create Category">
+    <Layout title="Dashboard - Manage Category">
       <div className="container-fluid m-3 p-3">
         <div className="row">
           <div className="col-md-3">
