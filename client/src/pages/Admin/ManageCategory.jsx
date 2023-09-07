@@ -17,6 +17,7 @@ const ManageCategory = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      //default header with token is all ready provided to axios in context/auth.js file,so no need to provide token here
       const { data } = await axios.post(
         `${process.env.REACT_APP_API}/api/v1/category/create-category`,
         {
@@ -38,6 +39,7 @@ const ManageCategory = () => {
   //delete category
   const handleDeleteCategory = async (categoryId) => {
     try {
+      //default header with token is all ready provided to axios in context/auth.js file,so no need to provide token here
       const { data } = await axios.delete(
         `${process.env.REACT_APP_API}/api/v1/category/delete-category/${categoryId}`
       );

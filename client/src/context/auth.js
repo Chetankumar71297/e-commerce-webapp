@@ -9,7 +9,7 @@ const AuthProvider = ({ children }) => {
     token: "",
   });
 
-  //default axios
+  //default axios.Because of this,no need to provide token while accessing Admin routes
   axios.defaults.headers.common["Authorization"] = auth?.token;
 
   useEffect(() => {
