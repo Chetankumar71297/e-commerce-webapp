@@ -157,11 +157,9 @@ export const updateProductController = async (req, res) => {
         return res.status(400).send({ error: "Category is required" });
       case !quantity:
         return res.status(400).send({ error: "Quantity is required" });
-      case !photo || photo.size > 1000000:
-        return res
-          .status(400)
-          .send({ error: "Photo is required and should be less then 1mb" });
-      case !allowedImageTypes.includes(photo.type):
+      case photo && photo.size > 1000000:
+        return res.status(400).send({ error: "Photo should be less then 1mb" });
+      case photo && !allowedImageTypes.includes(photo.type):
         return res.status(400).send({
           error: "Invalid file format. Only JPEG, PNG, and GIF are allowed.",
         });
@@ -174,10 +172,12 @@ export const updateProductController = async (req, res) => {
       },
       { new: true }
     );
+
     if (photo) {
       product.photo.data = fs.readFileSync(photo.path);
       product.photo.contentType = photo.type;
     }
+    await product.save();
 
     res.status(201).send({
       success: true,

@@ -18,6 +18,8 @@ import ManageProduct from "./pages/Admin/ManageProduct";
 import Users from "./pages/Admin/Users";
 import Profile from "./pages/User/Profile";
 import Orders from "./pages/User/Orders";
+import Products from "./pages/Admin/Products";
+import UpdateProduct from "./pages/Admin/UpdateProduct";
 function App() {
   return (
     <>
@@ -39,6 +41,8 @@ function App() {
           <Route path="admin/manage-category" element={<ManageCategory />} />
           <Route path="admin/manage-product" element={<ManageProduct />} />
           <Route path="admin/users" element={<Users />} />
+          <Route path="admin/products" element={<Products />} />
+          <Route path="admin/product/:slug" element={<UpdateProduct />} />
         </Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>
