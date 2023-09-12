@@ -97,6 +97,28 @@ export const getProductController = async (req, res) => {
   }
 };
 
+export const getFilteredProductsController = async (req, res) => {
+  try {
+    const { checkedCategoriesId, priceRange } = req.body;
+    let args = {};
+    if (checkedCategoriesId.length > 0) args.category = checkedCategoriesId;
+    if (priceRange.length)
+      args.price = { $gte: priceRange[0], $lte: priceRange[1] };
+    const products = await productModel.find(args);
+    res.status(200).send({
+      success: true,
+      products,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      error,
+      message: "Error while filtering products",
+    });
+  }
+};
+
 export const getProductPhotoController = async (req, res) => {
   try {
     const product = await productModel.findById(req.params.pid).select("photo");
@@ -190,6 +212,51 @@ export const updateProductController = async (req, res) => {
       success: false,
       error,
       message: "Error while updating product",
+    });
+  }
+};
+
+//get product count
+export const getProductCountController = async (req, res) => {
+  try {
+    const totalProductCount = await productModel
+      .find({})
+      .estimatedDocumentCount();
+    res.status(200).send({
+      success: true,
+      totalProductCount,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      error,
+      message: "Error in getting product count",
+    });
+  }
+};
+
+//get product list based on page
+export const getProductsForPageController = async (req, res) => {
+  try {
+    const productCountPerPage = 6;
+    const page = req.params.page ? req.params.page : 1;
+    const products = await productModel
+      .find({})
+      .select("-photo")
+      .skip((page - 1) * productCountPerPage)
+      .limit(productCountPerPage)
+      .sort({ createdAt: -1 });
+    res.status(200).send({
+      success: true,
+      products,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      error,
+      message: "Error in getting product",
     });
   }
 };
