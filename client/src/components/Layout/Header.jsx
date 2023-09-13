@@ -3,6 +3,7 @@ import { NavLink, Link } from "react-router-dom";
 import { FaShopify } from "react-icons/fa";
 import { useAuth } from "../../context/auth";
 import { toast } from "react-toastify";
+import SearchBar from "../Form/SearchBar";
 function Header() {
   const [auth, setAuth] = useAuth();
   const handleLogout = () => {
@@ -35,6 +36,7 @@ function Header() {
               <FaShopify /> Shopping kart
             </Link>
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+              <SearchBar />
               <li className="nav-item">
                 <NavLink to="/" className="nav-link">
                   Home
