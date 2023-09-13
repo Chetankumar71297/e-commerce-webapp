@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout/Layout";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { Checkbox, Radio } from "antd";
 import { Prices } from "../components/Prices";
 
 function HomePage() {
+  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [checkedCategoriesId, setCheckedCategoriesId] = useState([]);
@@ -174,7 +176,12 @@ function HomePage() {
                     {product.description.substring(0, 30)}
                   </p>
                   <p className="card-text"> $ {product.price}</p>
-                  <button className="btn btn-primary ms-1">More Details</button>
+                  <button
+                    className="btn btn-primary ms-1"
+                    onClick={() => navigate(`/product/${product.slug}`)}
+                  >
+                    More Details
+                  </button>
                   <button className="btn btn-secondary ms-1">
                     Add To Cart
                   </button>
@@ -191,7 +198,7 @@ function HomePage() {
                   setPage((p) => p + 1);
                 }}
               >
-                {loading ? "Loding..." : "Load More"}
+                {loading ? "Loading..." : "Load More"}
               </button>
             )}
           </div>
