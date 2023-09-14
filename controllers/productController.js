@@ -1,6 +1,6 @@
 import slugify from "slugify";
 import productModel from "../models/productModel.js";
-import fs from "fs";
+import fs, { readFileSync } from "fs";
 
 export const createProductController = async (req, res) => {
   try {
@@ -283,6 +283,31 @@ export const searchProductController = async (req, res) => {
       success: false,
       error,
       message: "Error in searching product",
+    });
+  }
+};
+
+export const getRelatedProductsController = async (req, res) => {
+  try {
+    const { pid, cid } = req.params;
+    const products = await productModel
+      .find({
+        category: cid,
+        _id: { $ne: pid },
+      })
+      .select("-photo")
+      .limit(3)
+      .populate("category");
+    res.status(200).send({
+      success: true,
+      products,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      error,
+      message: "Error while getting related products",
     });
   }
 };
