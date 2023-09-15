@@ -1,5 +1,6 @@
 import slugify from "slugify";
 import productModel from "../models/productModel.js";
+import categoryModel from "../models/categoryModal.js";
 import fs, { readFileSync } from "fs";
 
 export const createProductController = async (req, res) => {
@@ -104,7 +105,7 @@ export const getFilteredProductsController = async (req, res) => {
     if (checkedCategoriesId.length > 0) args.category = checkedCategoriesId;
     if (priceRange.length)
       args.price = { $gte: priceRange[0], $lte: priceRange[1] };
-    const products = await productModel.find(args);
+    const products = await productModel.find(args).select("-photo");
     res.status(200).send({
       success: true,
       products,
@@ -308,6 +309,29 @@ export const getRelatedProductsController = async (req, res) => {
       success: false,
       error,
       message: "Error while getting related products",
+    });
+  }
+};
+
+export const getProductsByCategoryController = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const category = await categoryModel.findOne({ slug });
+    const products = await productModel
+      .find({ category })
+      .select("-photo")
+      .populate("category");
+    res.status(200).send({
+      success: true,
+      category,
+      products,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      error,
+      message: "Error while getting products by category",
     });
   }
 };

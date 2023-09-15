@@ -22,6 +22,8 @@ import Products from "./pages/Admin/Products";
 import UpdateProduct from "./pages/Admin/UpdateProduct";
 import Search from "./pages/Search";
 import ProductDetails from "./pages/ProductDetails";
+import Categories from "./pages/Categories";
+import CategoryProducts from "./pages/CategoryProducts";
 function App() {
   return (
     <>
@@ -48,6 +50,8 @@ function App() {
         </Route>
         <Route path="/search" element={<Search />} />
         <Route path="/product/:slug" element={<ProductDetails />} />
+        <Route path="/categories" element={<Categories />} />
+        <Route path="/category/:slug" element={<CategoryProducts />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
       <ToastContainer
