@@ -2,11 +2,15 @@ import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout/Layout";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
+import { useCartProducts } from "../context/cart";
+import { toast } from "react-toastify";
 const ProductDetails = () => {
   const [product, setProduct] = useState({});
   const [relatedProducts, setRelatedProducts] = useState([]);
   const params = useParams();
   const navigate = useNavigate();
+  const [cartProducts, setCartProducts] = useCartProducts();
+
   useEffect(() => {
     //get product
     const getProduct = async () => {
@@ -57,7 +61,15 @@ const ProductDetails = () => {
           <h6>Price : {product.price}</h6>
           <h6>Category : {product?.category?.name}</h6>
           <h6>Shipping : {product.shipping === true ? "Yes" : "False"}</h6>
-          <button className="btn btn-secondary ms-1">ADD TO CART</button>
+          <button
+            className="btn btn-secondary ms-1"
+            onClick={() => {
+              setCartProducts([...cartProducts, product]);
+              toast.success("Product added to cart");
+            }}
+          >
+            ADD TO CART
+          </button>
         </div>
       </div>
       <hr />
@@ -84,7 +96,15 @@ const ProductDetails = () => {
                 >
                   More Details
                 </button>
-                <button className="btn btn-secondary ms-1">Add To Cart</button>
+                <button
+                  className="btn btn-secondary ms-1"
+                  onClick={() => {
+                    setCartProducts([...cartProducts, product]);
+                    toast.success("Product added to cart");
+                  }}
+                >
+                  Add To Cart
+                </button>
               </div>
             </div>
           ))}
