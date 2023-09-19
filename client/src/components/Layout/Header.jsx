@@ -57,18 +57,18 @@ function Header() {
                 </Link>
                 <ul className="dropdown-menu">
                   <li>
-                    <Link className="dropdown-item" to={"/categories"}>
+                    <NavLink className="dropdown-item" to={"/categories"}>
                       All Categories
-                    </Link>
+                    </NavLink>
                   </li>
                   {categories?.map((c) => (
                     <li key={c._id}>
-                      <Link
+                      <NavLink
                         className="dropdown-item"
                         to={`/category/${c.slug}`}
                       >
                         {c.name}
-                      </Link>
+                      </NavLink>
                     </li>
                   ))}
                 </ul>
@@ -89,14 +89,14 @@ function Header() {
               ) : (
                 <>
                   <li className="nav-item dropdown">
-                    <NavLink
+                    <Link
                       className="nav-link dropdown-toggle"
                       role="button"
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
                       {auth?.user.name}
-                    </NavLink>
+                    </Link>
                     <ul className="dropdown-menu">
                       <li>
                         <NavLink
@@ -122,11 +122,10 @@ function Header() {
                 </>
               )}
               <li className="nav-item">
-                <Badge count={cartProducts?.length} showZero>
-                  <NavLink to="/cart" className="nav-link">
-                    Cart
-                  </NavLink>
-                </Badge>
+                <NavLink to="/cart" className="nav-link">
+                  Cart
+                  <Badge count={cartProducts?.length} showZero />
+                </NavLink>
               </li>
             </ul>
           </div>
