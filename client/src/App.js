@@ -25,6 +25,8 @@ import ProductDetails from "./pages/ProductDetails";
 import Categories from "./pages/Categories";
 import CategoryProducts from "./pages/CategoryProducts";
 import CartPage from "./pages/CartPage";
+import Success from "./pages/Success";
+import Cancel from "./pages/Cancel";
 function App() {
   return (
     <>
@@ -54,6 +56,8 @@ function App() {
         <Route path="/categories" element={<Categories />} />
         <Route path="/category/:slug" element={<CategoryProducts />} />
         <Route path="/cart" element={<CartPage />} />
+        <Route path="/success" element={<Success />} />
+        <Route path="/cancel" element={<Cancel />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
       <ToastContainer

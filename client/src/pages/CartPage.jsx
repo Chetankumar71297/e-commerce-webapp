@@ -1,8 +1,8 @@
-import React from "react";
 import Layout from "../components/Layout/Layout";
 import { useCartProducts } from "../context/cart";
 import { useAuth } from "../context/auth";
 import { useNavigate } from "react-router-dom";
+import { loadStripe } from "@stripe/stripe-js";
 
 const CartPage = () => {
   const [auth] = useAuth();
@@ -35,6 +35,36 @@ const CartPage = () => {
       localStorage.setItem("cartProducts", JSON.stringify(myCart));
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const handlePayment = async () => {
+    const stripe = await loadStripe(
+      "pk_test_51NsTZ1SBNKUrGyIe6ZGISS5bW7LsLjnkK3un7aCRuZUkzKXuo8mWtJIrk8b4RF2rhKurVi4YzZrIjovB4hMcavdE00N8xz2fz7"
+    );
+
+    const body = {
+      products: cartProducts,
+    };
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `${auth?.token}`,
+    };
+    const response = await fetch(
+      `${process.env.REACT_APP_API}/api/v1/product/stripe/create-checkout-session`,
+      {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(body),
+      }
+    );
+    const session = await response.json();
+    const result = await stripe.redirectToCheckout({
+      sessionId: session.id,
+    });
+
+    if (result.error) {
+      console.log(result.error);
     }
   };
 
@@ -119,6 +149,14 @@ const CartPage = () => {
                 )}
               </div>
             )}
+            <div className="mt-2">
+              <button
+                className="btn btn-primary"
+                onClick={() => handlePayment()}
+              >
+                Make Payment
+              </button>
+            </div>
           </div>
         </div>
       </div>

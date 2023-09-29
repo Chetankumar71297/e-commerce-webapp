@@ -2,6 +2,17 @@ import slugify from "slugify";
 import productModel from "../models/productModel.js";
 import categoryModel from "../models/categoryModal.js";
 import fs, { readFileSync } from "fs";
+import orderModel from "../models/orderModel.js";
+import dotenv from "dotenv";
+
+import stripePackage from "stripe";
+
+const stripe = stripePackage(
+  "sk_test_51NsTZ1SBNKUrGyIeY85MQ8JjVeLZCVMugIcbe744wEFQlWKIE8CNgBz3jZYB1RfPMIV6jsnjG32COspDDczXNkVY00702vx39O"
+);
+
+//configure env
+dotenv.config();
 
 export const createProductController = async (req, res) => {
   try {
@@ -335,3 +346,67 @@ export const getProductsByCategoryController = async (req, res) => {
     });
   }
 };
+
+//stripe payment gateway api
+export const stripePaymentController = async (req, res) => {
+  const { products } = req.body;
+
+  const lineItems = products.map((product) => ({
+    price_data: {
+      currency: "inr",
+      product_data: {
+        name: product.name,
+      },
+      unit_amount: product.price * 100,
+    },
+    quantity: 1,
+  }));
+  //we can use card number this(5555555555554444) with any three digit cvv and any future exp date for testing
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ["card"],
+    line_items: lineItems,
+    mode: "payment",
+    success_url: "http://localhost:3000/success",
+    cancel_url: "http://localhost:3000/cancel",
+  });
+  if (session) {
+    const order = new orderModel({
+      products: products,
+      payment: session,
+      buyer: req.user._id,
+    }).save();
+  }
+  res.json({ id: session.id });
+};
+
+//payment
+/*export const braintreePaymentController = async (req, res) => {
+  try {
+    const { cart, nonce } = req.body;
+    let total = 0;
+    cart.map((item) => (total += item.price));
+    let newTransaction = gateway.transaction.sale(
+      {
+        amount: total,
+        paymentMethodNonce: nonce,
+        options: {
+          submitForSettlement: true,
+        },
+      },
+      function (error, result) {
+        if (result) {
+          const order = new orderModel({
+            products: cart,
+            payment: result,
+            buyer: req.user._id,
+          }).save();
+          res.json({ ok: true });
+        } else {
+          res.status(500).send(error);
+        }
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};*/

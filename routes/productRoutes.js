@@ -12,6 +12,7 @@ import {
   getProductsForPageController,
   getRelatedProductsController,
   searchProductController,
+  stripePaymentController,
   updateProductController,
 } from "../controllers/productController.js";
 import formidable from "express-formidable";
@@ -71,5 +72,12 @@ router.get("/related-products/:pid/:cid", getRelatedProductsController);
 
 //get product by category
 router.get("/get-category-products/:slug", getProductsByCategoryController);
+
+//stripe payment api route
+router.post(
+  "/stripe/create-checkout-session",
+  requireSignIn,
+  stripePaymentController
+);
 
 export default router;
