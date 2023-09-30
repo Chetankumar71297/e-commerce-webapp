@@ -1,7 +1,12 @@
 import React from "react";
+import Layout from "../components/Layout/Layout";
 
 const Success = () => {
-  return <div>Success</div>;
+  return (
+    <Layout>
+      <div className="text-center">Payment Successful</div>
+    </Layout>
+  );
 };
 
 export default Success;

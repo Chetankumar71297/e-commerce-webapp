@@ -27,6 +27,7 @@ import CategoryProducts from "./pages/CategoryProducts";
 import CartPage from "./pages/CartPage";
 import Success from "./pages/Success";
 import Cancel from "./pages/Cancel";
+import AdminOrders from "./pages/Admin/AdminOrders";
 function App() {
   return (
     <>
@@ -48,6 +49,7 @@ function App() {
           <Route path="admin/manage-category" element={<ManageCategory />} />
           <Route path="admin/manage-product" element={<ManageProduct />} />
           <Route path="admin/users" element={<Users />} />
+          <Route path="admin/orders" element={<AdminOrders />} />
           <Route path="admin/products" element={<Products />} />
           <Route path="admin/product/:slug" element={<UpdateProduct />} />
         </Route>

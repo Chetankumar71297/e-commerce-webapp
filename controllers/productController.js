@@ -378,35 +378,3 @@ export const stripePaymentController = async (req, res) => {
   }
   res.json({ id: session.id });
 };
-
-//payment
-/*export const braintreePaymentController = async (req, res) => {
-  try {
-    const { cart, nonce } = req.body;
-    let total = 0;
-    cart.map((item) => (total += item.price));
-    let newTransaction = gateway.transaction.sale(
-      {
-        amount: total,
-        paymentMethodNonce: nonce,
-        options: {
-          submitForSettlement: true,
-        },
-      },
-      function (error, result) {
-        if (result) {
-          const order = new orderModel({
-            products: cart,
-            payment: result,
-            buyer: req.user._id,
-          }).save();
-          res.json({ ok: true });
-        } else {
-          res.status(500).send(error);
-        }
-      }
-    );
-  } catch (error) {
-    console.log(error);
-  }
-};*/
